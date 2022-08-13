@@ -41,7 +41,7 @@ export function CoffeeCard({
   tags,
   quantity,
 }: ICoffeCard) {
-  const { addToCart, addQuantityCart, deleteQuantityCart } =
+  const { addToCart, addQuantityCart, subtractQuantityCart } =
     useContext(MarketContext);
   return (
     <CardContainer>
@@ -62,7 +62,7 @@ export function CoffeeCard({
           R$ <span>{value.toFixed(2).replace(".", ",")}</span>
         </CardFooterValue>
         <CardFooterQuantity>
-          <CardFooterButton onClick={() => deleteQuantityCart(id)}>
+          <CardFooterButton onClick={() => subtractQuantityCart(id)}>
             <Minus />
           </CardFooterButton>
           <span>{quantity}</span>

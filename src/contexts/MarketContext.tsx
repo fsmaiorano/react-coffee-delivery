@@ -24,8 +24,9 @@ interface IMarketContext {
   products: ProductItem[];
   checkoutProducts: ProductItem[];
   addQuantityCart: (productId: number) => void;
-  deleteQuantityCart: (productId: number) => void;
+  subtractQuantityCart: (productId: number) => void;
   addToCart: (productId: number) => void;
+  removeFromCart: (productId: number) => void;
 }
 
 interface ProductItem {
@@ -186,14 +187,26 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
     if (product) {
       product.quantity = product.quantity >= 1 ? product.quantity + 1 : 1;
       setProducts([...products]);
+
+      const checkoutProduct = checkoutProducts.find((p) => p.id === productId);
+      if (checkoutProduct) {
+        checkoutProduct.quantity = checkoutProduct.quantity + 1;
+        setCheckoutProducts([...checkoutProducts]);
+      }
     }
   }
 
-  function deleteQuantityCart(productId: number) {
+  function subtractQuantityCart(productId: number) {
     const product = products.find((p) => p.id === productId);
     if (product) {
       product.quantity = product.quantity >= 2 ? product.quantity - 1 : 1;
       setProducts([...products]);
+
+      const checkoutProduct = checkoutProducts.find((p) => p.id === productId);
+      if (checkoutProduct) {
+        checkoutProduct.quantity = checkoutProduct.quantity - 1;
+        setCheckoutProducts([...checkoutProducts]);
+      }
     }
   }
 
@@ -202,12 +215,19 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
     if (product) {
       const productCheckout = checkoutProducts.find((p) => p.id === productId);
       if (productCheckout === undefined) {
-        const newProduct = { ...product, quantity: 1 };
+        const newProduct = { ...product };
         setCheckoutProducts([...checkoutProducts, newProduct]);
       } else {
-        productCheckout.quantity = productCheckout.quantity + 1;
         setCheckoutProducts([productCheckout]);
       }
+    }
+  }
+
+  function removeFromCart(productId: number) {
+    const product = checkoutProducts.find((p) => p.id === productId);
+    if (product) {
+      const newProducts = checkoutProducts.filter((p) => p.id !== productId);
+      setCheckoutProducts([...newProducts]);
     }
   }
 
@@ -218,7 +238,8 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
         checkoutProducts,
         addToCart,
         addQuantityCart,
-        deleteQuantityCart,
+        subtractQuantityCart,
+        removeFromCart,
       }}
     >
       {children}

@@ -39,8 +39,13 @@ enum PaymentMethod {
 
 export function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
-  const { checkoutProducts, addToCart, addQuantityCart, deleteQuantityCart } =
-    useContext(MarketContext);
+  const {
+    checkoutProducts,
+    addToCart,
+    removeFromCart,
+    addQuantityCart,
+    subtractQuantityCart,
+  } = useContext(MarketContext);
 
   function handlePaymentMethod(paymentMethod: PaymentMethod) {
     setPaymentMethod(paymentMethod);
@@ -129,7 +134,7 @@ export function Checkout() {
                 <CheckoutCartItemFooter>
                   <CheckoutCartItemQuantity>
                     <CheckoutCartItemButton
-                      onClick={() => deleteQuantityCart(product.id)}
+                      onClick={() => subtractQuantityCart(product.id)}
                     >
                       <Minus />
                     </CheckoutCartItemButton>
@@ -140,7 +145,9 @@ export function Checkout() {
                       <Plus />
                     </CheckoutCartItemButton>
                   </CheckoutCartItemQuantity>
-                  <CheckoutCartItemRemove>
+                  <CheckoutCartItemRemove
+                    onClick={() => removeFromCart(product.id)}
+                  >
                     <Trash />
                     Remover
                   </CheckoutCartItemRemove>
