@@ -140,6 +140,7 @@ export const CardFooterButton = styled.div`
   justify-items: center;
   align-items: center;
   background-color: transparent;
+  cursor: pointer;
 
   svg {
     width: 16px;

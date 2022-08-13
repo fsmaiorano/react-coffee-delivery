@@ -11,6 +11,12 @@ import {
   CheckoutPaymentMethodContainer,
   CheckoutPaymentOption,
   CheckoutPaymentOptions,
+  CheckoutCartItem,
+  CheckoutCartItemDetails,
+  CheckoutCartItemFooter,
+  CheckoutCartItemButton,
+  CheckoutCartItemQuantity,
+  CheckoutCartItemRemove,
 } from "./Checkout.styles";
 import {
   MapPinLine,
@@ -18,8 +24,12 @@ import {
   Money,
   CreditCard,
   Bank,
+  Minus,
+  Plus,
+  Trash,
 } from "phosphor-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MarketContext } from "../../../../contexts/MarketContext";
 
 enum PaymentMethod {
   CREDIT_CARD,
@@ -29,6 +39,8 @@ enum PaymentMethod {
 
 export function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
+  const { checkoutProducts, addToCart, addQuantityCart, deleteQuantityCart } =
+    useContext(MarketContext);
 
   function handlePaymentMethod(paymentMethod: PaymentMethod) {
     setPaymentMethod(paymentMethod);
@@ -105,7 +117,38 @@ export function Checkout() {
       <CheckoutContainerDivider />
       <CheckoutContainerRight>
         <h1>Cafés selecionados</h1>
-        <CheckoutCartContainer>sdsa</CheckoutCartContainer>
+        <CheckoutCartContainer>
+          {checkoutProducts?.map((product, index) => (
+            <CheckoutCartItem>
+              <img src={product.imageSrc} />
+              <CheckoutCartItemDetails>
+                <p>
+                  {product.title}{" "}
+                  <span>R$ {product.value.toFixed(2).replace(".", ",")}</span>
+                </p>
+                <CheckoutCartItemFooter>
+                  <CheckoutCartItemQuantity>
+                    <CheckoutCartItemButton
+                      onClick={() => deleteQuantityCart(product.id)}
+                    >
+                      <Minus />
+                    </CheckoutCartItemButton>
+                    <span>{product.quantity}</span>
+                    <CheckoutCartItemButton
+                      onClick={() => addQuantityCart(product.id)}
+                    >
+                      <Plus />
+                    </CheckoutCartItemButton>
+                  </CheckoutCartItemQuantity>
+                  <CheckoutCartItemRemove>
+                    <Trash />
+                    Remover
+                  </CheckoutCartItemRemove>
+                </CheckoutCartItemFooter>
+              </CheckoutCartItemDetails>
+            </CheckoutCartItem>
+          ))}
+        </CheckoutCartContainer>
       </CheckoutContainerRight>
     </CheckoutContainer>
   );

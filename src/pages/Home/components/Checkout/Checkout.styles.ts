@@ -11,16 +11,18 @@ export const CheckoutContainer = styled.div`
 `;
 
 export const CheckoutContainerLeft = styled.div`
-  width: 60%;
+  width: 55%;
 `;
 
 export const CheckoutContainerRight = styled.div`
-  width: 40%;
+  width: 45%;
 `;
 
 export const CheckoutContainerDivider = styled.div`
   width: 5%;
 `;
+
+// Left
 
 export const CheckoutFormContainer = styled.form`
   display: flex;
@@ -113,15 +115,6 @@ export const CheckoutFormInput = styled.input<InputProps>`
   } */
 `;
 
-export const CheckoutCartContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 40px;
-  margin-top: 44px;
-  background-color: ${(props) => props.theme["gray-100"]};
-`;
-
 export const CheckoutPaymentMethodContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -160,7 +153,7 @@ export const CheckoutPaymentOption = styled.button<CheckoutPaymentOptionProps>`
   border: 1px solid
     ${(props) =>
       props.selected ? props.theme["purple-500"] : props.theme["gray-300"]};
-  
+
   background-color: ${(props) =>
     props.selected ? props.theme["purple-300"] : props.theme["gray-300"]};
 
@@ -181,6 +174,146 @@ export const CheckoutPaymentOption = styled.button<CheckoutPaymentOptionProps>`
     text-transform: uppercase;
     user-select: none;
     color: ${(props) => props.theme["gray-700"]};
+  }
+
+  &:hover {
+    border: 1px solid ${(props) => props.theme["purple-500"]};
+    background-color: ${(props) => props.theme["purple-300"]};
+  }
+`;
+
+// Right
+
+export const CheckoutCartContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 40px;
+  margin-top: 44px;
+  background-color: ${(props) => props.theme["gray-100"]};
+`;
+
+export const CheckoutCartItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+
+  img {
+    width: 140px;
+    height: 64px;
+  }
+
+  &:first-child {
+    padding: 0px 0 24px 0;
+    border-bottom: 1px solid ${(props) => props.theme["gray-400"]};
+  }
+
+  &:not(:first-child) {
+    padding: 24px 0 24px 0;
+    border-top: 1px solid ${(props) => props.theme["gray-400"]};
+    border-bottom: 1px solid ${(props) => props.theme["gray-400"]};
+  }
+`;
+
+export const CheckoutCartItemDetails = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
+
+  p:first-child {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 130%;
+    float: left;
+
+    span {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 130%;
+      float: right;
+    }
+  }
+`;
+
+export const CheckoutCartItemFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  span {
+  }
+`;
+
+export const CheckoutCartItemButton = styled.div`
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  background-color: transparent;
+  cursor: pointer;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: ${(props) => props.theme["purple-700"]};
+
+    &:hover {
+      color: ${(props) => props.theme["purple-500"]};
+    }
+  }
+`;
+
+export const CheckoutCartItemQuantity = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  gap: 4px;
+  background-color: ${(props) => props.theme["gray-400"]};
+  cursor: pointer;
+  border-radius: 6px;
+`;
+
+export const CheckoutCartItemRemove = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 110px;
+  height: 35px;
+  cursor: pointer;
+
+  border-radius: 6px;
+  border: none;
+  background-color: ${(props) => props.theme["gray-400"]};
+
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 13px;
+    user-select: none;
+    color: ${(props) => props.theme["purple-500"]};
+  }
+
+  p {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.8rem;
+    line-height: 160%;
+    text-transform: uppercase;
+    user-select: none;
+    color: ${(props) => props.theme["gray-700"]};
+    text-transform: uppercase;
   }
 
   &:hover {

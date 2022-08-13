@@ -22,6 +22,7 @@ interface IMakerContextProps {
 
 interface IMarketContext {
   products: ProductItem[];
+  checkoutProducts: ProductItem[];
   addQuantityCart: (productId: number) => void;
   deleteQuantityCart: (productId: number) => void;
   addToCart: (productId: number) => void;
@@ -212,7 +213,13 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
 
   return (
     <MarketContext.Provider
-      value={{ products, addToCart, addQuantityCart, deleteQuantityCart }}
+      value={{
+        products,
+        checkoutProducts,
+        addToCart,
+        addQuantityCart,
+        deleteQuantityCart,
+      }}
     >
       {children}
     </MarketContext.Provider>
