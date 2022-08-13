@@ -142,7 +142,11 @@ export const CheckoutPaymentOptions = styled.div`
   margin-top: 32px;
 `;
 
-export const CheckoutPaymentOption = styled.div`
+interface CheckoutPaymentOptionProps {
+  selected?: boolean;
+}
+
+export const CheckoutPaymentOption = styled.button<CheckoutPaymentOptionProps>`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -151,7 +155,14 @@ export const CheckoutPaymentOption = styled.div`
   height: 51px;
   cursor: pointer;
 
-  background-color: ${(props) => props.theme["gray-400"]};
+  border-radius: 6px;
+
+  border: 1px solid
+    ${(props) =>
+      props.selected ? props.theme["purple-500"] : props.theme["gray-300"]};
+  
+  background-color: ${(props) =>
+    props.selected ? props.theme["purple-300"] : props.theme["gray-300"]};
 
   svg {
     width: 16px;
@@ -170,5 +181,10 @@ export const CheckoutPaymentOption = styled.div`
     text-transform: uppercase;
     user-select: none;
     color: ${(props) => props.theme["gray-700"]};
+  }
+
+  &:hover {
+    border: 1px solid ${(props) => props.theme["purple-500"]};
+    background-color: ${(props) => props.theme["purple-300"]};
   }
 `;

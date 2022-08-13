@@ -19,8 +19,21 @@ import {
   CreditCard,
   Bank,
 } from "phosphor-react";
+import { useState } from "react";
+
+enum PaymentMethod {
+  CREDIT_CARD,
+  BANK,
+  MONEY,
+}
 
 export function Checkout() {
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
+
+  function handlePaymentMethod(paymentMethod: PaymentMethod) {
+    setPaymentMethod(paymentMethod);
+  }
+
   return (
     <CheckoutContainer>
       <CheckoutContainerLeft>
@@ -65,15 +78,24 @@ export function Checkout() {
             </div>
           </CheckoutTitle>
           <CheckoutPaymentOptions>
-            <CheckoutPaymentOption>
+            <CheckoutPaymentOption
+              selected={paymentMethod === PaymentMethod.CREDIT_CARD}
+              onClick={() => handlePaymentMethod(PaymentMethod.CREDIT_CARD)}
+            >
               <CreditCard />
               <p>CARTÃO DE CRÉDITO</p>
             </CheckoutPaymentOption>
-            <CheckoutPaymentOption>
+            <CheckoutPaymentOption
+              selected={paymentMethod === PaymentMethod.BANK}
+              onClick={() => handlePaymentMethod(PaymentMethod.BANK)}
+            >
               <Bank />
               <p>CARTÃO DE DÉBITO</p>
             </CheckoutPaymentOption>
-            <CheckoutPaymentOption>
+            <CheckoutPaymentOption
+              selected={paymentMethod === PaymentMethod.MONEY}
+              onClick={() => handlePaymentMethod(PaymentMethod.MONEY)}
+            >
               <Money />
               <p>DINHEIRO</p>
             </CheckoutPaymentOption>
