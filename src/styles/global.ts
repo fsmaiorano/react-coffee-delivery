@@ -34,10 +34,6 @@ export const GlobalStyle = createGlobalStyle`
         font-family: "Baloo 2", serif;
     }
 
-    p {
-        
-    }
-
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -46,5 +42,9 @@ export const GlobalStyle = createGlobalStyle`
 
     input[type=number] {
         -moz-appearance:textfield; /* Firefox */
+    }
+
+    button {
+        cursor: pointer;
     }
 `;

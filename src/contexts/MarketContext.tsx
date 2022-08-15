@@ -229,7 +229,7 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
 
       const checkoutProduct = checkoutProducts.find(p => p.id === productId);
       if (checkoutProduct) {
-        checkoutProduct.quantity = checkoutProduct.quantity - 1;
+        checkoutProduct.quantity = checkoutProduct.quantity >= 2 ? checkoutProduct.quantity - 1 : 1;
         setCheckoutProducts([...checkoutProducts]);
       }
     }
