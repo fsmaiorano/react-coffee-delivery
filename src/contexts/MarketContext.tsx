@@ -23,13 +23,15 @@ interface IMakerContextProps {
 interface IMarketContext {
   products: ProductItem[];
   checkoutProducts: ProductItem[];
+  order: Order;
   addQuantityCart: (productId: number) => void;
   subtractQuantityCart: (productId: number) => void;
   addToCart: (productId: number) => void;
   removeFromCart: (productId: number) => void;
+  handleOrder: (order: Order) => void;
 }
 
-interface ProductItem {
+export interface ProductItem {
   id: number;
   imageSrc: any;
   title: string;
@@ -37,6 +39,35 @@ interface ProductItem {
   tags: TagOptions[];
   value: number;
   quantity: number;
+}
+
+export enum PaymentMethod {
+  CREDIT_CARD,
+  BANK,
+  MONEY,
+}
+
+export interface checkoutTotal {
+  total: number;
+  quantity: number;
+  deliveryTax: number;
+}
+
+export interface deliveryAddress {
+  street: string;
+  number: number;
+  complement: string;
+  district: string;
+  city: string;
+  state: string;
+  postalcode: number;
+}
+
+export interface Order {
+  orderedProducts: ProductItem[];
+  paymentMethod: PaymentMethod;
+  checkoutTotal: checkoutTotal;
+  deliveryAddress: deliveryAddress;
 }
 
 export const MarketContext = createContext({} as IMarketContext);
@@ -92,8 +123,7 @@ const defaultMarketItems: ProductItem[] = [
     id: 6,
     imageSrc: latte,
     title: "Latte",
-    description:
-      "Uma dose de café expresso com o dobro de leite e espuma cremosa",
+    description: "Uma dose de café expresso com o dobro de leite e espuma cremosa",
     tags: ["TRADICIONAL", "COM LEITE"],
     value: 9.9,
     quantity: 1,
@@ -102,8 +132,7 @@ const defaultMarketItems: ProductItem[] = [
     id: 7,
     imageSrc: capuccino,
     title: "Capuccino",
-    description:
-      "Bebida com canela feita de doses iguais de café, leite e espuma",
+    description: "Bebida com canela feita de doses iguais de café, leite e espuma",
     tags: ["TRADICIONAL", "COM LEITE"],
     value: 9.9,
     quantity: 1,
@@ -112,8 +141,7 @@ const defaultMarketItems: ProductItem[] = [
     id: 8,
     imageSrc: macchiato,
     title: "Macchiato",
-    description:
-      "Café expresso misturado com um pouco de leite quente e espuma",
+    description: "Café expresso misturado com um pouco de leite quente e espuma",
     tags: ["TRADICIONAL", "COM LEITE"],
     value: 9.9,
     quantity: 1,
@@ -140,8 +168,7 @@ const defaultMarketItems: ProductItem[] = [
     id: 11,
     imageSrc: cuban,
     title: "Cubano",
-    description:
-      "Drink gelado de café expresso com rum, creme de leite e hortelã",
+    description: "Drink gelado de café expresso com rum, creme de leite e hortelã",
     tags: ["ESPECIAL", "ALCOÓLICO", "GELADO"],
     value: 9.9,
     quantity: 1,
@@ -176,19 +203,17 @@ const defaultMarketItems: ProductItem[] = [
 ];
 
 export function MarketContextProvider({ children }: IMakerContextProps) {
-  const [products, setProducts] = useState<ProductItem[]>([
-    ...defaultMarketItems,
-  ]);
-
+  const [products, setProducts] = useState<ProductItem[]>([...defaultMarketItems]);
+  const [order, setOrder] = useState<Order>({} as Order);
   const [checkoutProducts, setCheckoutProducts] = useState<ProductItem[]>([]);
 
   function addQuantityCart(productId: number) {
-    const product = products.find((p) => p.id === productId);
+    const product = products.find(p => p.id === productId);
     if (product) {
       product.quantity = product.quantity >= 1 ? product.quantity + 1 : 1;
       setProducts([...products]);
 
-      const checkoutProduct = checkoutProducts.find((p) => p.id === productId);
+      const checkoutProduct = checkoutProducts.find(p => p.id === productId);
       if (checkoutProduct) {
         checkoutProduct.quantity = checkoutProduct.quantity + 1;
         setCheckoutProducts([...checkoutProducts]);
@@ -197,12 +222,12 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
   }
 
   function subtractQuantityCart(productId: number) {
-    const product = products.find((p) => p.id === productId);
+    const product = products.find(p => p.id === productId);
     if (product) {
       product.quantity = product.quantity >= 2 ? product.quantity - 1 : 1;
       setProducts([...products]);
 
-      const checkoutProduct = checkoutProducts.find((p) => p.id === productId);
+      const checkoutProduct = checkoutProducts.find(p => p.id === productId);
       if (checkoutProduct) {
         checkoutProduct.quantity = checkoutProduct.quantity - 1;
         setCheckoutProducts([...checkoutProducts]);
@@ -211,9 +236,9 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
   }
 
   function addToCart(productId: number) {
-    const product = products.find((p) => p.id === productId);
+    const product = products.find(p => p.id === productId);
     if (product) {
-      const productCheckout = checkoutProducts.find((p) => p.id === productId);
+      const productCheckout = checkoutProducts.find(p => p.id === productId);
       if (productCheckout === undefined) {
         const newProduct = { ...product };
         setCheckoutProducts([...checkoutProducts, newProduct]);
@@ -224,11 +249,16 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
   }
 
   function removeFromCart(productId: number) {
-    const product = checkoutProducts.find((p) => p.id === productId);
+    const product = checkoutProducts.find(p => p.id === productId);
     if (product) {
-      const newProducts = checkoutProducts.filter((p) => p.id !== productId);
+      const newProducts = checkoutProducts.filter(p => p.id !== productId);
       setCheckoutProducts([...newProducts]);
     }
+  }
+
+  function handleOrder(order: Order) {
+    debugger;
+    setOrder(order);
   }
 
   return (
@@ -236,10 +266,12 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
       value={{
         products,
         checkoutProducts,
+        order,
         addToCart,
         addQuantityCart,
         subtractQuantityCart,
         removeFromCart,
+        handleOrder,
       }}
     >
       {children}

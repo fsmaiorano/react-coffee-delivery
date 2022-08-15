@@ -198,7 +198,6 @@ export const CheckoutCartItem = styled.div`
   flex-direction: row;
   width: 100%;
 
-
   img {
     width: 140px;
     height: 64px;
@@ -319,5 +318,63 @@ export const CheckoutCartItemRemove = styled.button`
   &:hover {
     border: 1px solid ${(props) => props.theme["purple-500"]};
     background-color: ${(props) => props.theme["purple-300"]};
+  }
+`;
+
+export const CheckoutTotal = styled.div`
+  width: 100%;
+
+  > p {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+
+    color: ${(props) => props.theme["gray-700"]};
+
+    margin: 12px 0;
+
+    &:first-of-type {
+      margin: 0 0;
+    }
+
+    &:last-of-type {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 130%;
+
+      color: ${(props) => props.theme["gray-800"]};
+    }
+
+    > span {
+      float: right;
+    }
+  }
+
+  button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 8px;
+    gap: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    width: 23rem;
+    height: 2.87rem;
+
+    border: none;
+    text-transform: uppercase;
+
+    color: ${(props) => props.theme["white"]};
+    background: ${(props) => props.theme["yellow-600"]};
+
+    &:hover {
+      background: ${(props) => props.theme["yellow-700"]};
+    }
   }
 `;

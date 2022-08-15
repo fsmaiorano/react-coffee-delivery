@@ -17,46 +17,81 @@ import {
   CheckoutCartItemButton,
   CheckoutCartItemQuantity,
   CheckoutCartItemRemove,
+  CheckoutTotal,
 } from "./Checkout.styles";
-import {
-  MapPinLine,
-  CurrencyDollar,
-  Money,
-  CreditCard,
-  Bank,
-  Minus,
-  Plus,
-  Trash,
-} from "phosphor-react";
-import { useContext, useState } from "react";
-import { MarketContext } from "../../../../contexts/MarketContext";
 
-enum PaymentMethod {
-  CREDIT_CARD,
-  BANK,
-  MONEY,
-}
+import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank, Minus, Plus, Trash } from "phosphor-react";
+import { useContext, useEffect, useState } from "react";
+import { checkoutTotal, deliveryAddress, MarketContext, Order, PaymentMethod, ProductItem } from "../../../../contexts/MarketContext";
+import { useForm } from "react-hook-form";
 
 export function Checkout() {
+  const [checkout, setCheckout] = useState<checkoutTotal>({
+    total: 0,
+    quantity: 0,
+    deliveryTax: 0,
+  });
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
+  const { handleOrder, checkoutProducts, removeFromCart, addQuantityCart, subtractQuantityCart } = useContext(MarketContext);
   const {
-    checkoutProducts,
-    addToCart,
-    removeFromCart,
-    addQuantityCart,
-    subtractQuantityCart,
-  } = useContext(MarketContext);
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<deliveryAddress>();
+
+  console.log(errors);
 
   function handlePaymentMethod(paymentMethod: PaymentMethod) {
     setPaymentMethod(paymentMethod);
   }
+
+  function handleCartValues() {
+    let total = checkoutProducts.reduce((acc, curr) => {
+      return acc + curr.value * curr.quantity;
+    }, 0);
+
+    let quantity = checkoutProducts.reduce((acc, curr) => {
+      return acc + curr.quantity;
+    }, 0);
+
+    const deliveryTax = 2.5;
+    total > 0 ? (total = total + deliveryTax) : 0;
+    setCheckout({ total, quantity, deliveryTax });
+  }
+
+  const onSubmit = (da: deliveryAddress) => {
+    debugger;
+
+    let order = {
+      orderedProducts: checkoutProducts,
+      paymentMethod: paymentMethod,
+      checkoutTotal: checkout,
+      deliveryAddress: {
+        city: da.city,
+        district: da.district,
+        complement: da.complement,
+        number: da.number,
+        state: da.state,
+        street: da.street,
+      },
+    } as Order;
+
+    reset();
+  };
+
+  useEffect(() => {
+    handleCartValues();
+  }, [checkoutProducts]);
+
+  const isValidForm = true;
 
   return (
     <CheckoutContainer>
       <CheckoutContainerLeft>
         <h1>Complete o seu pedido</h1>
 
-        <CheckoutFormContainer>
+        <CheckoutFormContainer onSubmit={handleSubmit(onSubmit)} id="form">
           <CheckoutTitle iconColor="yellow">
             <div>
               <MapPinLine />
@@ -67,17 +102,17 @@ export function Checkout() {
             </div>
           </CheckoutTitle>
           <CheckoutForm>
-            <CheckoutFormInput placeholder="CEP" width={28} />
-            <CheckoutFormInput placeholder="Rua" width={100} />
-            <CheckoutFormInput placeholder="Número" width={28} />
+            <CheckoutFormInput placeholder="CEP" width={28} type="number" {...register("postalcode", { required: false, maxLength: 7 })} />
+            <CheckoutFormInput placeholder="Rua" width={100} {...register("street", { required: false, pattern: /^[A-Za-z]+$/i })} />
+            <CheckoutFormInput placeholder="Número" width={28} type="number" {...(register("number", { required: false }), { min: 0 })} />
+            <CheckoutFormInput placeholder="Complemento" width={70} after="opcional" {...register("complement", { required: false })} />
+            <CheckoutFormInput placeholder="Bairro" width={28} {...register("district", { required: false, pattern: /^[A-Za-z]+$/i })} />
+            <CheckoutFormInput placeholder="Cidade" width={60} {...register("city", { required: false, pattern: /^[A-Za-z]+$/i })} />
             <CheckoutFormInput
-              placeholder="Complemento"
-              width={70}
-              after="opcional"
+              placeholder="UF"
+              width={8}
+              {...register("state", { required: false, minLength: 2, maxLength: 2, pattern: /^[A-Za-z]+$/i })}
             />
-            <CheckoutFormInput placeholder="Bairro" width={28} />
-            <CheckoutFormInput placeholder="Cidade" width={60} />
-            <CheckoutFormInput placeholder="UF" width={8} />
           </CheckoutForm>
         </CheckoutFormContainer>
 
@@ -87,10 +122,7 @@ export function Checkout() {
               <CurrencyDollar />
               <div>
                 <p>Pagamento</p>
-                <p>
-                  O pagamento é feito na entrega. Escolha a forma que deseja
-                  pagar
-                </p>
+                <p>O pagamento é feito na entrega. Escolha a forma que deseja pagar</p>
               </div>
             </div>
           </CheckoutTitle>
@@ -102,10 +134,7 @@ export function Checkout() {
               <CreditCard />
               <p>CARTÃO DE CRÉDITO</p>
             </CheckoutPaymentOption>
-            <CheckoutPaymentOption
-              selected={paymentMethod === PaymentMethod.BANK}
-              onClick={() => handlePaymentMethod(PaymentMethod.BANK)}
-            >
+            <CheckoutPaymentOption selected={paymentMethod === PaymentMethod.BANK} onClick={() => handlePaymentMethod(PaymentMethod.BANK)}>
               <Bank />
               <p>CARTÃO DE DÉBITO</p>
             </CheckoutPaymentOption>
@@ -124,30 +153,23 @@ export function Checkout() {
         <h1>Cafés selecionados</h1>
         <CheckoutCartContainer>
           {checkoutProducts?.map((product, index) => (
-            <CheckoutCartItem>
+            <CheckoutCartItem key={index}>
               <img src={product.imageSrc} />
               <CheckoutCartItemDetails>
                 <p>
-                  {product.title}{" "}
-                  <span>R$ {product.value.toFixed(2).replace(".", ",")}</span>
+                  {product.title} <span>R$ {product.value.toFixed(2).replace(".", ",")}</span>
                 </p>
                 <CheckoutCartItemFooter>
                   <CheckoutCartItemQuantity>
-                    <CheckoutCartItemButton
-                      onClick={() => subtractQuantityCart(product.id)}
-                    >
+                    <CheckoutCartItemButton onClick={() => subtractQuantityCart(product.id)}>
                       <Minus />
                     </CheckoutCartItemButton>
                     <span>{product.quantity}</span>
-                    <CheckoutCartItemButton
-                      onClick={() => addQuantityCart(product.id)}
-                    >
+                    <CheckoutCartItemButton onClick={() => addQuantityCart(product.id)}>
                       <Plus />
                     </CheckoutCartItemButton>
                   </CheckoutCartItemQuantity>
-                  <CheckoutCartItemRemove
-                    onClick={() => removeFromCart(product.id)}
-                  >
+                  <CheckoutCartItemRemove onClick={() => removeFromCart(product.id)}>
                     <Trash />
                     Remover
                   </CheckoutCartItemRemove>
@@ -155,6 +177,20 @@ export function Checkout() {
               </CheckoutCartItemDetails>
             </CheckoutCartItem>
           ))}
+          <CheckoutTotal>
+            <p>
+              Total de itens <span>{checkout.quantity.toFixed(0)}</span>
+            </p>
+            <p>
+              Entrega <span>R$ {checkout.deliveryTax.toFixed(2)}</span>
+            </p>
+            <p>
+              Total <span>R$ {checkout.total.toFixed(2)}</span>
+            </p>
+            <button type="submit" form="form">
+              Confirmar Pedido
+            </button>
+          </CheckoutTotal>
         </CheckoutCartContainer>
       </CheckoutContainerRight>
     </CheckoutContainer>
