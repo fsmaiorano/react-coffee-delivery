@@ -33,14 +33,7 @@ export function Checkout() {
   });
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>();
   const { handleOrder, checkoutProducts, removeFromCart, addQuantityCart, subtractQuantityCart } = useContext(MarketContext);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<deliveryAddress>();
-
-  console.log(errors);
+  const { register, handleSubmit, reset } = useForm<deliveryAddress>();
 
   function handlePaymentMethod(paymentMethod: PaymentMethod) {
     setPaymentMethod(paymentMethod);
@@ -84,7 +77,9 @@ export function Checkout() {
     handleCartValues();
   }, [checkoutProducts]);
 
-  const isValidForm = true;
+  useEffect(() => {
+    setPaymentMethod(PaymentMethod.CREDIT_CARD);
+  }, []);
 
   return (
     <CheckoutContainer>
@@ -102,16 +97,65 @@ export function Checkout() {
             </div>
           </CheckoutTitle>
           <CheckoutForm>
-            <CheckoutFormInput placeholder="CEP" width={28} type="number" {...register("postalcode", { required: false, maxLength: 7 })} />
-            <CheckoutFormInput placeholder="Rua" width={100} {...register("street", { required: false, pattern: /^[A-Za-z]+$/i })} />
-            <CheckoutFormInput placeholder="Número" width={28} type="number" {...(register("number", { required: false }), { min: 0 })} />
-            <CheckoutFormInput placeholder="Complemento" width={70} after="opcional" {...register("complement", { required: false })} />
-            <CheckoutFormInput placeholder="Bairro" width={28} {...register("district", { required: false, pattern: /^[A-Za-z]+$/i })} />
-            <CheckoutFormInput placeholder="Cidade" width={60} {...register("city", { required: false, pattern: /^[A-Za-z]+$/i })} />
+            <CheckoutFormInput
+              placeholder="CEP (xxxxx-xxx)"
+              width={28}
+              required
+              pattern="[0-9]{4}-[0-9]{3}"
+              {...register("postalcode")}
+              onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um CEP válido")}
+            />
+            <CheckoutFormInput
+              placeholder="Rua"
+              width={100}
+              pattern="[a-zA-Z0-9 ]{1,}"
+              {...register("street", { pattern: /^[A-Za-z]+$/i })}
+              required
+              onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com uma rua válida")}
+            />
+            <CheckoutFormInput
+              placeholder="Número"
+              width={28}
+              type="number"
+              {...(register("number", {}), { min: 0 })}
+              required
+              onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um número válido")}
+            />
+            <CheckoutFormInput
+              placeholder="Complemento"
+              width={70}
+              after="opcional"
+              {...register("complement", {})}
+              required
+              maxLength={40}
+              onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um complemento válido")}
+            />
+            <CheckoutFormInput
+              placeholder="Bairro"
+              width={28}
+              maxLength={40}
+              type="text"
+              {...register("district", { pattern: /^[A-Za-z]+$/i })}
+              required
+              onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um bairro válido")}
+            />
+            <CheckoutFormInput
+              placeholder="Cidade"
+              width={60}
+              maxLength={50}
+              type="text"
+              {...register("city", { pattern: /^[A-Za-z]+$/i })}
+              required
+              onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com uma cidade válida")}
+            />
             <CheckoutFormInput
               placeholder="UF"
               width={8}
-              {...register("state", { required: false, minLength: 2, maxLength: 2, pattern: /^[A-Za-z]+$/i })}
+              maxLength={2}
+              type="text"
+              {...register("state", { minLength: 2, maxLength: 2, pattern: /^[A-Za-z]+$/i })}
+              required
+              onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um estado válido")}
             />
           </CheckoutForm>
         </CheckoutFormContainer>
@@ -127,10 +171,7 @@ export function Checkout() {
             </div>
           </CheckoutTitle>
           <CheckoutPaymentOptions>
-            <CheckoutPaymentOption
-              selected={paymentMethod === PaymentMethod.CREDIT_CARD}
-              onClick={() => handlePaymentMethod(PaymentMethod.CREDIT_CARD)}
-            >
+            <CheckoutPaymentOption selected={paymentMethod === PaymentMethod.CREDIT_CARD} onClick={() => handlePaymentMethod(PaymentMethod.CREDIT_CARD)}>
               <CreditCard />
               <p>CARTÃO DE CRÉDITO</p>
             </CheckoutPaymentOption>
@@ -138,10 +179,7 @@ export function Checkout() {
               <Bank />
               <p>CARTÃO DE DÉBITO</p>
             </CheckoutPaymentOption>
-            <CheckoutPaymentOption
-              selected={paymentMethod === PaymentMethod.MONEY}
-              onClick={() => handlePaymentMethod(PaymentMethod.MONEY)}
-            >
+            <CheckoutPaymentOption selected={paymentMethod === PaymentMethod.MONEY} onClick={() => handlePaymentMethod(PaymentMethod.MONEY)}>
               <Money />
               <p>DINHEIRO</p>
             </CheckoutPaymentOption>
@@ -187,7 +225,7 @@ export function Checkout() {
             <p>
               Total <span>R$ {checkout.total.toFixed(2)}</span>
             </p>
-            <button type="submit" form="form">
+            <button type="submit" form="form" disabled={checkoutProducts.length > 0 ? false : true}>
               Confirmar Pedido
             </button>
           </CheckoutTotal>

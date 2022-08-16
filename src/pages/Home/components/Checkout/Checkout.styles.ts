@@ -129,7 +129,6 @@ export const CheckoutPaymentOptions = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 16px;
   gap: 12px;
 
   margin-top: 32px;
@@ -375,6 +374,10 @@ export const CheckoutTotal = styled.div`
 
     &:hover {
       background: ${(props) => props.theme["yellow-700"]};
+    }
+
+    &:disabled {
+      background: ${(props) => props.theme["gray-500"]};
     }
   }
 `;
