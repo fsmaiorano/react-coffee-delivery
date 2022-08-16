@@ -7,6 +7,7 @@ export const LayoutContainer = styled.div`
 `;
 
 export const ContentContainer = styled.div`
+  margin: 0 auto;
   max-width: 90rem;
   height: calc(100vh - 6.5rem);
 `;

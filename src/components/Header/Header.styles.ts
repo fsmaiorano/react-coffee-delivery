@@ -6,7 +6,9 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  max-width: 90rem;
   padding: 2rem 10rem;
+  margin: 0 auto;
 
   img {
     width: 5.309rem;
