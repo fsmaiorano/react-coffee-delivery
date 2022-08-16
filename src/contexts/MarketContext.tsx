@@ -15,6 +15,7 @@ import macchiato from "../assets/market/macchiato.svg";
 
 import { createContext, useState } from "react";
 import { TagOptions } from "../pages/Home/components/Market/components/CoffeeCard";
+import { useNavigate, Navigate } from "react-router-dom";
 
 interface IMakerContextProps {
   children: React.ReactNode;
@@ -42,9 +43,9 @@ export interface ProductItem {
 }
 
 export enum PaymentMethod {
-  CREDIT_CARD,
-  BANK,
-  MONEY,
+  CREDIT_CARD = "Cartão de Crédito",
+  BANK = "Cartão de Débito",
+  MONEY = "Dinheiro",
 }
 
 export interface checkoutTotal {
@@ -256,9 +257,10 @@ export function MarketContextProvider({ children }: IMakerContextProps) {
     }
   }
 
+  const navigate = useNavigate();
   function handleOrder(order: Order) {
-    debugger;
     setOrder(order);
+    navigate("../delivery", { replace: true });
   }
 
   return (

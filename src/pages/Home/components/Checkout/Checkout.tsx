@@ -54,8 +54,6 @@ export function Checkout() {
   }
 
   const onSubmit = (da: deliveryAddress) => {
-    debugger;
-
     let order = {
       orderedProducts: checkoutProducts,
       paymentMethod: paymentMethod,
@@ -71,6 +69,7 @@ export function Checkout() {
     } as Order;
 
     reset();
+    handleOrder(order);
   };
 
   useEffect(() => {
@@ -103,31 +102,34 @@ export function Checkout() {
               required
               pattern="[0-9]{4}-[0-9]{3}"
               {...register("postalcode")}
+              onInput={event => event.currentTarget.setCustomValidity("")}
               onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um CEP válido")}
             />
             <CheckoutFormInput
               placeholder="Rua"
               width={100}
               pattern="[a-zA-Z0-9 ]{1,}"
-              {...register("street", { pattern: /^[A-Za-z]+$/i })}
+              {...register("street")}
               required
+              onInput={event => event.currentTarget.setCustomValidity("")}
               onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com uma rua válida")}
             />
             <CheckoutFormInput
               placeholder="Número"
               width={28}
               type="number"
-              {...(register("number", {}), { min: 0 })}
+              {...(register("number"), { min: 0 })}
               required
+              onInput={event => event.currentTarget.setCustomValidity("")}
               onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um número válido")}
             />
             <CheckoutFormInput
               placeholder="Complemento"
               width={70}
               after="opcional"
-              {...register("complement", {})}
-              required
+              {...register("complement")}
               maxLength={40}
+              onInput={event => event.currentTarget.setCustomValidity("")}
               onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um complemento válido")}
             />
             <CheckoutFormInput
@@ -135,8 +137,9 @@ export function Checkout() {
               width={28}
               maxLength={40}
               type="text"
-              {...register("district", { pattern: /^[A-Za-z]+$/i })}
+              {...register("district")}
               required
+              onInput={event => event.currentTarget.setCustomValidity("")}
               onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um bairro válido")}
             />
             <CheckoutFormInput
@@ -144,8 +147,9 @@ export function Checkout() {
               width={60}
               maxLength={50}
               type="text"
-              {...register("city", { pattern: /^[A-Za-z]+$/i })}
+              {...register("city")}
               required
+              onInput={event => event.currentTarget.setCustomValidity("")}
               onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com uma cidade válida")}
             />
             <CheckoutFormInput
@@ -155,6 +159,7 @@ export function Checkout() {
               type="text"
               {...register("state", { minLength: 2, maxLength: 2, pattern: /^[A-Za-z]+$/i })}
               required
+              onInput={event => event.currentTarget.setCustomValidity("")}
               onInvalid={event => event.currentTarget.setCustomValidity("Preencha o campo com um estado válido")}
             />
           </CheckoutForm>
