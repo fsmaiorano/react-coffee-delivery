@@ -14,6 +14,7 @@ import {
 import { Minus, Plus, ShoppingCart } from "phosphor-react";
 import { useContext } from "react";
 import { MarketContext } from "../../../../../contexts/MarketContext";
+import { toast } from "react-toastify";
 
 interface ICoffeCard {
   id: number;
@@ -25,24 +26,11 @@ interface ICoffeCard {
   quantity: number;
 }
 
-export type TagOptions =
-  | "TRADICIONAL"
-  | "GELADO"
-  | "COM LEITE"
-  | "ESPECIAL"
-  | "ALCOÓLICO";
+export type TagOptions = "TRADICIONAL" | "GELADO" | "COM LEITE" | "ESPECIAL" | "ALCOÓLICO";
 
-export function CoffeeCard({
-  id,
-  imageSrc,
-  title,
-  description,
-  value,
-  tags,
-  quantity,
-}: ICoffeCard) {
-  const { addToCart, addQuantityCart, subtractQuantityCart } =
-    useContext(MarketContext);
+export function CoffeeCard({ id, imageSrc, title, description, value, tags, quantity }: ICoffeCard) {
+  const notify = () => toast("Updated order !");
+  const { addToCart, addQuantityCart, subtractQuantityCart } = useContext(MarketContext);
   return (
     <CardContainer>
       <CardContent>
@@ -71,7 +59,7 @@ export function CoffeeCard({
           </CardFooterButton>
         </CardFooterQuantity>
         <CardFooterAddCart title="add to cart" onClick={() => addToCart(id)}>
-          <ShoppingCart weight="fill" size={22} />
+          <ShoppingCart weight="fill" size={22} onClick={notify} />
         </CardFooterAddCart>
       </CardFooter>
     </CardContainer>
