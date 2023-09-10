@@ -12,8 +12,6 @@ export const WelcomeContainer = styled.section`
 `;
 
 export const LeftContainer = styled.div`
-  /* width: 37.5rem; */
-
   h1 {
     font-size: 3rem;
     font-weight: 800;
@@ -29,9 +27,19 @@ export const LeftContainer = styled.div`
     margin: 1rem auto 3rem auto;
   }
 
-  @media (max-width: 1140px) {
+  @media (max-width: 1200px) {
     h1 {
       font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
     }
 
     h2 {
@@ -44,9 +52,9 @@ export const RightContainer = styled.div`
   img {
     width: 29.75rem;
     height: 22.5rem;
-    
-    @media (max-width: 1140px) {
-     display: none;
+
+    @media (max-width: 1200px) {
+      display: none;
     }
   }
 `;
@@ -56,6 +64,11 @@ export const FeaturesContainer = styled.div`
   grid-template-columns: repeat(2, 19rem);
   grid-template-rows: repeat(2, 4rem);
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 4rem);
+  }
 `;
 
 const STATUS_COLORS = {
