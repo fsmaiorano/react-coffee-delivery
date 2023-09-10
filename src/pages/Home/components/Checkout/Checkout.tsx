@@ -197,7 +197,7 @@ export function Checkout() {
         <CheckoutCartContainer>
           {checkoutProducts?.map((product, index) => (
             <CheckoutCartItem key={index}>
-              <img src={product.imageSrc} />
+              <img alt="" src={product.imageSrc} />
               <CheckoutCartItemDetails>
                 <p>
                   {product.title} <span>R$ {product.value.toFixed(2).replace(".", ",")}</span>
