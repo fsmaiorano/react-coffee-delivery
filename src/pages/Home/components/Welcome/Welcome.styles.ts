@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const WelcomeContainer = styled.section`
   display: flex;
   flex-direction: row;
@@ -19,7 +18,6 @@ export const LeftContainer = styled.div`
     font-size: 3rem;
     font-weight: 800;
     line-height: 130%;
-
   }
 
   h2 {
@@ -30,12 +28,26 @@ export const LeftContainer = styled.div`
 
     margin: 1rem auto 3rem auto;
   }
+
+  @media (max-width: 1140px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1rem;
+    }
+  }
 `;
 
 export const RightContainer = styled.div`
   img {
     width: 29.75rem;
     height: 22.5rem;
+    
+    @media (max-width: 1140px) {
+     display: none;
+    }
   }
 `;
 
@@ -68,7 +80,7 @@ export const FeatureItem = styled.p<FeaturesItemProps>`
     font-weight: 400;
     font-size: 1rem;
     line-height: 130%;
-    color: ${(props) => props.theme["gray-700"]};
+    color: ${props => props.theme["gray-700"]};
     width: 187px;
     height: 21px;
     white-space: nowrap;
@@ -79,9 +91,7 @@ export const FeatureItem = styled.p<FeaturesItemProps>`
     height: 38px;
     padding: 8px;
     border-radius: 99px;
-    background-color: ${(props) =>
-      props.theme[STATUS_COLORS[props.statusColor]]};
-    color: ${(props) => props.theme["white"]};
+    background-color: ${props => props.theme[STATUS_COLORS[props.statusColor]]};
+    color: ${props => props.theme["white"]};
   }
 `;
-
