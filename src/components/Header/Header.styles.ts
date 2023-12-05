@@ -14,6 +14,10 @@ export const HeaderContainer = styled.div`
     width: 5.309rem;
     height: 2.5rem;
   }
+
+  @media (max-width: 768px) {
+    padding: 2rem 2rem;
+  }
 `;
 
 export const ActionContainer = styled.div`

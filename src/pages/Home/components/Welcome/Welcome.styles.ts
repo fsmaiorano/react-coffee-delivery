@@ -8,6 +8,10 @@ export const WelcomeContainer = styled.section`
 
   padding: 2rem 10rem;
 
+  @media (max-width: 768px) {
+    padding: 2rem 2rem;
+  }
+
   height: 544px;
 `;
 
@@ -46,14 +50,24 @@ export const LeftContainer = styled.div`
       font-size: 1rem;
     }
   }
+
+  @media (max-width: 576px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 0.875rem;
+    }
+  }
 `;
 
 export const RightContainer = styled.div`
   img {
-    width: 29.75rem;
-    height: 22.5rem;
+    width: 150%;
+    min-width: 200px;
 
-    @media (max-width: 1200px) {
+    @media (max-width: 992px) {
       display: none;
     }
   }

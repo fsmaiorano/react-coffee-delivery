@@ -2,6 +2,10 @@ import styled from "styled-components";
 
 export const MarketContainer = styled.div`
   padding: 2rem 10rem;
+
+  @media (max-width: 768px) {
+    padding: 2rem 2rem;
+  }
   
   h1 {
     font-family: "Baloo 2", cursive;

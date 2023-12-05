@@ -3,6 +3,10 @@ import styled from "styled-components";
 export const CheckoutContainer = styled.div`
   padding: 2rem 10rem;
 
+  @media (max-width: 768px) {
+    padding: 2rem 2rem;
+  }
+
   display: flex;
   flex-direction: row;
   align-items: flex-start;
