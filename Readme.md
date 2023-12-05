@@ -31,3 +31,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ![Screen_1](https://github.com/fsmaiorano/react-coffee-delivery/blob/master/github/coffee-delivery-1.png)
+![Screen_2](https://github.com/fsmaiorano/react-coffee-delivery/blob/master/github/coffee-delivery-2.png)
