@@ -1,29 +1,29 @@
 import {
-  CheckoutContainer,
-  CheckoutFormContainer,
-  CheckoutTitle,
-  CheckoutForm,
-  CheckoutFormInput,
   CheckoutCartContainer,
+  CheckoutCartItem,
+  CheckoutCartItemButton,
+  CheckoutCartItemDetails,
+  CheckoutCartItemFooter,
+  CheckoutCartItemQuantity,
+  CheckoutCartItemRemove,
+  CheckoutContainer,
+  CheckoutContainerDivider,
   CheckoutContainerLeft,
   CheckoutContainerRight,
-  CheckoutContainerDivider,
+  CheckoutForm,
+  CheckoutFormContainer,
+  CheckoutFormInput,
   CheckoutPaymentMethodContainer,
   CheckoutPaymentOption,
   CheckoutPaymentOptions,
-  CheckoutCartItem,
-  CheckoutCartItemDetails,
-  CheckoutCartItemFooter,
-  CheckoutCartItemButton,
-  CheckoutCartItemQuantity,
-  CheckoutCartItemRemove,
+  CheckoutTitle,
   CheckoutTotal,
 } from "./Checkout.styles";
 
-import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank, Minus, Plus, Trash } from "phosphor-react";
+import { Bank, CreditCard, CurrencyDollar, MapPinLine, Minus, Money, Plus, Trash } from "phosphor-react";
 import { useContext, useEffect, useState } from "react";
-import { checkoutTotal, deliveryAddress, MarketContext, Order, PaymentMethod, ProductItem } from "../../../../contexts/MarketContext";
 import { useForm } from "react-hook-form";
+import { MarketContext, Order, PaymentMethod, checkoutTotal, deliveryAddress } from "../../../../contexts/MarketContext";
 
 export function Checkout() {
   const [checkout, setCheckout] = useState<checkoutTotal>({
@@ -154,7 +154,7 @@ export function Checkout() {
             />
             <CheckoutFormInput
               placeholder="UF"
-              width={8}
+              width={9}
               maxLength={2}
               type="text"
               {...register("state", { minLength: 2, maxLength: 2, pattern: /^[A-Za-z]+$/i })}
