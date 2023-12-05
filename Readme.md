@@ -1,10 +1,31 @@
 # React Coffee Delivery
 
+## Description
+This project is a coffee delivery app built with React. It allows users to order their favorite coffee and have it delivered to their doorstep.
 
-This is a project made for an challenge the React course of the RocketSeat. It is a web application that allows you to order coffee and visualize the orders made.
+# Additional Information
+- React
+- React Router
+- React Hooks
+- React Context
+- Styled Components
+- React Toastify
+- Phosphor React
+- Typescript
+- Vite
 
 
-### Need Improvements
+## Installation
+To install the project, follow these steps:
+1. Clone the repository: `git clone <repository-url>`
+2. Install dependencies: `npm install`
+3. Start the project: `npm start`
 
-- Site resposivity
-- Masks for input fields
+## Usage
+After starting the project, navigate to `http://localhost:3000` in your browser to view the app.
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)

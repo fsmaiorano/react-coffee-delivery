@@ -12,18 +12,33 @@ export const CheckoutContainer = styled.div`
   align-items: flex-start;
 
   width: 100%;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 
 export const CheckoutContainerLeft = styled.div`
-  width: 55%;
+  width: 50%;
+  min-width: 20px;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 export const CheckoutContainerRight = styled.div`
-  width: 45%;
+  width: 50%;
+  min-width: 20px;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 export const CheckoutContainerDivider = styled.div`
-  width: 5%;
+  width: 50px;
+  min-width: 20px;
 `;
 
 // Left
@@ -34,7 +49,7 @@ export const CheckoutFormContainer = styled.form`
   align-items: flex-start;
   padding: 40px;
   margin-top: 44px;
-  background-color: ${(props) => props.theme["gray-100"]};
+  background-color: ${props => props.theme["gray-100"]};
 `;
 
 const ICON_COLOR = {
@@ -54,7 +69,7 @@ export const CheckoutTitle = styled.div<CheckoutTitleProps>`
     svg {
       width: 22px;
       height: 22px;
-      color: ${(props) => props.theme[ICON_COLOR[props.iconColor]]};
+      color: ${props => props.theme[ICON_COLOR[props.iconColor]]};
     }
 
     div {
@@ -104,18 +119,18 @@ export const CheckoutFormInput = styled.input<InputProps>`
   padding: 12px;
   height: 42px;
   border-radius: 4px;
-  border: 1px solid ${(props) => props.theme["gray-400"]};
-  background-color: ${(props) => props.theme["gray-300"]};
-  width: ${(props) => (props.width ? props.width : 100)}%;
+  border: 1px solid ${props => props.theme["gray-400"]};
+  background-color: ${props => props.theme["gray-300"]};
+  width: ${props => (props.width ? props.width : 100)}%;
 
   /* &::before {
     position: absolute;
-    content: ${(props) => (props.before ? `"${props.before}"` : "teste")};
+    content: ${props => (props.before ? `"${props.before}"` : "teste")};
   }
 
   &::after {
     position: absolute;
-    content: ${(props) => (props.after ? `"${props.after}"` : "teste")};
+    content: ${props => (props.after ? `"${props.after}"` : "teste")};
   } */
 `;
 
@@ -125,15 +140,15 @@ export const CheckoutPaymentMethodContainer = styled.div`
   align-items: flex-start;
   padding: 40px;
   margin-top: 44px;
-  background-color: ${(props) => props.theme["gray-100"]};
+  background-color: ${props => props.theme["gray-100"]};
 `;
 
 export const CheckoutPaymentOptions = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 186px);
   gap: 12px;
+
+  width: 100%;
 
   margin-top: 32px;
 `;
@@ -153,19 +168,16 @@ export const CheckoutPaymentOption = styled.button<CheckoutPaymentOptionProps>`
 
   border-radius: 6px;
 
-  border: 1px solid
-    ${(props) =>
-      props.selected ? props.theme["purple-500"] : props.theme["gray-300"]};
+  border: 1px solid ${props => (props.selected ? props.theme["purple-500"] : props.theme["gray-300"])};
 
-  background-color: ${(props) =>
-    props.selected ? props.theme["purple-300"] : props.theme["gray-300"]};
+  background-color: ${props => (props.selected ? props.theme["purple-300"] : props.theme["gray-300"])};
 
   svg {
     width: 16px;
     height: 16px;
     margin-right: 13px;
     user-select: none;
-    color: ${(props) => props.theme["purple-500"]};
+    color: ${props => props.theme["purple-500"]};
   }
 
   p {
@@ -176,12 +188,12 @@ export const CheckoutPaymentOption = styled.button<CheckoutPaymentOptionProps>`
     line-height: 160%;
     text-transform: uppercase;
     user-select: none;
-    color: ${(props) => props.theme["gray-700"]};
+    color: ${props => props.theme["gray-700"]};
   }
 
   &:hover {
-    border: 1px solid ${(props) => props.theme["purple-500"]};
-    background-color: ${(props) => props.theme["purple-300"]};
+    border: 1px solid ${props => props.theme["purple-500"]};
+    background-color: ${props => props.theme["purple-300"]};
   }
 `;
 
@@ -193,7 +205,7 @@ export const CheckoutCartContainer = styled.div`
   align-items: flex-start;
   padding: 40px;
   margin-top: 44px;
-  background-color: ${(props) => props.theme["gray-100"]};
+  background-color: ${props => props.theme["gray-100"]};
 `;
 
 export const CheckoutCartItem = styled.div`
@@ -208,13 +220,13 @@ export const CheckoutCartItem = styled.div`
 
   &:first-child {
     padding: 0px 0 24px 0;
-    border-bottom: 1px solid ${(props) => props.theme["gray-400"]};
+    border-bottom: 1px solid ${props => props.theme["gray-400"]};
   }
 
   &:not(:first-child) {
     padding: 24px 0 24px 0;
-    border-top: 1px solid ${(props) => props.theme["gray-400"]};
-    border-bottom: 1px solid ${(props) => props.theme["gray-400"]};
+    border-top: 1px solid ${props => props.theme["gray-400"]};
+    border-bottom: 1px solid ${props => props.theme["gray-400"]};
   }
 `;
 
@@ -265,10 +277,10 @@ export const CheckoutCartItemButton = styled.div`
   svg {
     width: 16px;
     height: 16px;
-    color: ${(props) => props.theme["purple-700"]};
+    color: ${props => props.theme["purple-700"]};
 
     &:hover {
-      color: ${(props) => props.theme["purple-500"]};
+      color: ${props => props.theme["purple-500"]};
     }
   }
 `;
@@ -280,7 +292,7 @@ export const CheckoutCartItemQuantity = styled.div`
   align-items: center;
   padding: 8px;
   gap: 4px;
-  background-color: ${(props) => props.theme["gray-400"]};
+  background-color: ${props => props.theme["gray-400"]};
   cursor: pointer;
   border-radius: 6px;
 `;
@@ -296,14 +308,14 @@ export const CheckoutCartItemRemove = styled.button`
 
   border-radius: 6px;
   border: none;
-  background-color: ${(props) => props.theme["gray-400"]};
+  background-color: ${props => props.theme["gray-400"]};
 
   svg {
     width: 16px;
     height: 16px;
     margin-right: 13px;
     user-select: none;
-    color: ${(props) => props.theme["purple-500"]};
+    color: ${props => props.theme["purple-500"]};
   }
 
   p {
@@ -314,13 +326,13 @@ export const CheckoutCartItemRemove = styled.button`
     line-height: 160%;
     text-transform: uppercase;
     user-select: none;
-    color: ${(props) => props.theme["gray-700"]};
+    color: ${props => props.theme["gray-700"]};
     text-transform: uppercase;
   }
 
   &:hover {
-    border: 1px solid ${(props) => props.theme["purple-500"]};
-    background-color: ${(props) => props.theme["purple-300"]};
+    border: 1px solid ${props => props.theme["purple-500"]};
+    background-color: ${props => props.theme["purple-300"]};
   }
 `;
 
@@ -334,7 +346,7 @@ export const CheckoutTotal = styled.div`
     font-size: 14px;
     line-height: 130%;
 
-    color: ${(props) => props.theme["gray-700"]};
+    color: ${props => props.theme["gray-700"]};
 
     margin: 12px 0;
 
@@ -349,7 +361,7 @@ export const CheckoutTotal = styled.div`
       font-size: 20px;
       line-height: 130%;
 
-      color: ${(props) => props.theme["gray-800"]};
+      color: ${props => props.theme["gray-800"]};
     }
 
     > span {
@@ -367,21 +379,21 @@ export const CheckoutTotal = styled.div`
     border-radius: 6px;
     cursor: pointer;
 
-    width: 23rem;
+    width: 100%;
     height: 2.87rem;
 
     border: none;
     text-transform: uppercase;
 
-    color: ${(props) => props.theme["white"]};
-    background: ${(props) => props.theme["yellow-600"]};
+    color: ${props => props.theme["white"]};
+    background: ${props => props.theme["yellow-600"]};
 
     &:hover {
-      background: ${(props) => props.theme["yellow-700"]};
+      background: ${props => props.theme["yellow-700"]};
     }
 
     &:disabled {
-      background: ${(props) => props.theme["gray-500"]};
+      background: ${props => props.theme["gray-500"]};
     }
   }
 `;
