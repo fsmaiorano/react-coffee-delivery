@@ -1,4 +1,4 @@
-# React Coffee Delivery
+# React Coffee Delivery :coffee:
 
 ## Description
 This project is a coffee delivery app built with React. It allows users to order their favorite coffee and have it delivered to their doorstep.
